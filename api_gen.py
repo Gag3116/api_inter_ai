@@ -33,14 +33,38 @@ matcher.add("SYMPTOMS", patterns)
 
 # 否定检测函数
 def is_negated(token):
+    """
+    检查 token 是否被否定修饰，支持直接否定、间接否定和双重否定。
+    确保否定词唯一性，避免重复计数。
+    """
     negation_words = {"no", "not", "n't", "don't", "doesn't", "never", "without", "lack"}
-    for ancestor in token.ancestors:
-        if ancestor.lower_ in negation_words:
-            return True
+    negation_tokens = set()  # 使用集合存储否定词，确保唯一性
+
+    # 1. 检查父节点的子节点是否有否定修饰
     for child in token.head.children:
         if child.dep_ == "neg" or child.lower_ in negation_words:
-            return True
-    return False
+            negation_tokens.add(child.text)
+
+    # 2. 检查路径上的祖先节点是否有否定修饰
+    for ancestor in token.ancestors:
+        if ancestor.lower_ in negation_words:
+            negation_tokens.add(ancestor.text)
+        for child in ancestor.children:
+            if child.dep_ == "neg" or child.lower_ in negation_words:
+                negation_tokens.add(child.text)
+
+    # 3. 处理间接否定：检查症状词的整个子树中是否包含否定词
+    for descendant in token.subtree:
+        if descendant.lower_ in negation_words:
+            negation_tokens.add(descendant.text)
+
+    # # 4. 输出调试信息
+    # print(f"[调试] 检测症状 '{token.text}'")
+    # print(f"[调试] 否定词数量: {len(negation_tokens)}")
+    # print(f"[调试] 否定词列表: {list(negation_tokens)}")
+
+    # 5. 根据否定词数量判断是否为否定
+    return len(negation_tokens) % 2 == 1  # 奇数为否定，偶数为肯定（双重否定）
 
 # 检查对比连词后的状态
 def check_contrast_and_status(doc):

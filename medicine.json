@@ -1,0 +1,40 @@
+{
+    "medications": [
+        {
+            "name": "Codral Original Cold & Flu",
+            "symptoms": [
+                "runny nose",
+                "nasal congestion",
+                "headache",
+                "body aches and pains",
+                "fever"
+            ]
+        },
+        {
+            "name": "BETADINE SORE THROAT GARGLE",
+            "symptoms": [
+                "sore throats"
+            ]
+        },
+        {
+            "name": "Gaviscon Double Action Chewable Tablets",
+            "symptoms": [
+                "acid",
+                "regurgitation",
+                "heartburn",
+                "indigestion"
+            ]
+        },
+        {
+            "name": "Mylanta 2Go Double Strength Antacid",
+            "symptoms": [
+                "upset",
+                "stomach",
+                "flatulence",
+                "wind",
+                "pain"
+            ]
+        }
+    ]
+}
+

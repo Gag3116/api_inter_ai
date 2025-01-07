@@ -165,4 +165,7 @@ def parse_and_recommend():
     }), 200
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5003, debug=True)
+    # 获取 PORT 环境变量，默认为 5000
+    port = int(os.environ.get("PORT", 5000))
+    # 监听所有主机，使用动态端口
+    app.run(host="0.0.0.0", port=port, debug=False)
